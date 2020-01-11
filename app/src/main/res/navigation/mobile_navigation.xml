@@ -12,32 +12,29 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.imdb.imdb_api.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
-
+        android:id="@+id/nav_films"
+        android:name="com.imdb.imdb_api.ui.films.FilmsFragment"
+        android:label="@string/menu_films"
+        tools:layout="@layout/fragment_database" />
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.imdb.imdb_api.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-
+        android:id="@+id/nav_directors"
+        android:name="com.imdb.imdb_api.ui.directors.DirectorsFragment"
+        android:label="@string/menu_directors"
+        tools:layout="@layout/fragment_database" />
     <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.imdb.imdb_api.ui.tools.ToolsFragment"
-        android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
-
+        android:id="@+id/nav_actors"
+        android:name="com.imdb.imdb_api.ui.actors.ActorsFragment"
+        android:label="@string/menu_actors"
+        tools:layout="@layout/fragment_database" />
     <fragment
-        android:id="@+id/nav_share"
-        android:name="com.imdb.imdb_api.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
-
+        android:id="@+id/nav_search"
+        android:name="com.imdb.imdb_api.ui.search.SearchFragment"
+        android:label="@string/menu_search"
+        tools:layout="@layout/fragment_search" />
     <fragment
-        android:id="@+id/nav_send"
-        android:name="com.imdb.imdb_api.ui.send.SendFragment"
-        android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
+        android:id="@+id/nav_connection_error"
+        android:name="com.imdb.imdb_api.ui.search.SearchFragment"
+        android:label="@string/menu_search"
+        tools:layout="@layout/fragment_search" />
+
 </navigation>

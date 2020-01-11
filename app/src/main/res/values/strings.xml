@@ -9,8 +9,15 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
+    <string name="menu_films">Filmy</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
+    <string name="menu_send">Send Nudes</string>
+    <string name="menu_search">Szukaj</string>
+    <string name="menu_actors">Aktorzy</string>
+    <string name="menu_directors">Reżyserzy</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
