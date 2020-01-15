@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class SearchViewModel : ViewModel() {
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is search Fragment"
+    val text = MutableLiveData<String>()
+
+    fun setString(s:String){
+        text.value=s
     }
-    val text: LiveData<String> = _text
 }

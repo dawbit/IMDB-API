@@ -5,14 +5,14 @@
     android:layout_height="match_parent">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView_database"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+
 
     <androidx.recyclerview.widget.RecyclerView
+
+        android:id="@+id/recyclerViewer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </FrameLayout>
