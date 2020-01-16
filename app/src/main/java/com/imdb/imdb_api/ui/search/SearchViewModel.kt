@@ -10,4 +10,8 @@ class SearchViewModel : ViewModel() {
     fun setString(s:String){
         text.value=s
     }
+
+    fun getString():LiveData<String>{
+        return text
+    }
 }

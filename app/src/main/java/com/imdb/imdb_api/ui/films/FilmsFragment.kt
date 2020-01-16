@@ -14,9 +14,6 @@ import com.example.apka6.DBHelper
 import com.imdb.imdb_api.MainActivity
 import com.imdb.imdb_api.R
 
-/**
- * A simple [Fragment] subclass.
- */
 class FilmsFragment : Fragment() {
 
     private lateinit var filmsViewModel: FilmsViewModel

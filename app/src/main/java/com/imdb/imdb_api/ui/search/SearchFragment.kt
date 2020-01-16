@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 import com.imdb.imdb_api.R
 import com.imdb.imdb_api.ui.films.FilmsViewModel
@@ -27,10 +29,18 @@ class SearchFragment : Fragment() {
         searchViewModel =
             ViewModelProviders.of(this).get(SearchViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_search, container, false)
-        val textView: TextView = root.findViewById(R.id.searchText)
-        searchViewModel.text.observe(this, Observer {
-            textView.text = it
-        })
+
+        return root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        searchViewModel = activity!!.run{ViewModelProviders.of(this).get(searchViewModel::class.java)}
+        var rest= RestFilmClass()
+
+        rest.BatmanMutableList.observe(this, Observer { tester.text = it.Search.first().Title})
+
         searchText.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {
             }
@@ -43,7 +53,5 @@ class SearchFragment : Fragment() {
             }
 
         })
-        return root
     }
-
 }
