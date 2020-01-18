@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.imdb.imdb_api.R
@@ -26,29 +27,27 @@ class AdapterDirectors(val context: Context, val directorsList: MutableList<Dire
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var dbHandler = DBHelper(context, null)
         val act = directorsList[position]
-        val test = act.directorForeName + act.directorLastName
+        val test = act.directorName
         holder.directorNameTextView.text = test
 
-        // dbHandler.delUser(act)
-        // tasks.removeAt(position)
-        // notifyItemRemoved(position)
-        // notifyItemRangeChanged(position, this.itemCount)
+        holder.favouriteButton.setImageResource(R.drawable.ic_favourite_true)
+        holder.favouriteButton.setOnClickListener{
 
-//        holder.itemView.setOnClickListener()
-//
-//        {
-//            val intent = Intent(context,SecondActivity::class.java)
-//            intent.putExtra("name", act.taskName)
-//            intent.putExtra("priority", act.taskPriority)
-//            intent.putExtra("state", act.taskState)
-//            intent.putExtra("id",act.taskid.toString())
-//            ContextCompat.startActivity(context,intent,null)
-//            Log.d("kiciak",act.taskid.toString())
-//        }
+            if(dbHandler.checkDirector(test)==1) {
+                dbHandler.delDirector(act.directorName)
+                holder.favouriteButton.setImageResource(R.drawable.ic_favourite_false)
+            }
+            else {
+                var helper = DirectorsClass(act.directorName)
+                dbHandler.addDirector(helper)
+                holder.favouriteButton.setImageResource(R.drawable.ic_favourite_true)
+            }
+        }
     }
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val directorNameTextView=view.findViewById<TextView>(R.id.titleMovie)
+        val favouriteButton = view.findViewById<ImageButton>(R.id.movieIsFavourite)
     }
 
 

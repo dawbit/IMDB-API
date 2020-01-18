@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.imdb.imdb_api.R
@@ -29,29 +30,28 @@ class AdapterActors(val context: Context, val actorList: MutableList<ActorsClass
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var dbHandler = DBHelper(context, null)
         val act = actorList[position]
-        val test = act.actorForeName + act.actorLastName
+        val test = act.actorName
+        //holder.favouriteButton
         holder.actorNameTextView.text = test
+        holder.favouriteButton.setImageResource(R.drawable.ic_favourite_true)
+        holder.favouriteButton.setOnClickListener{
 
-        // dbHandler.delUser(act)
-        // tasks.removeAt(position)
-        // notifyItemRemoved(position)
-        // notifyItemRangeChanged(position, this.itemCount)
+            if(dbHandler.checkActor(test)==1) {
+                dbHandler.delActor(act.actorName)
+                holder.favouriteButton.setImageResource(R.drawable.ic_favourite_false)
+            }
+            else {
+                var helper = ActorsClass(act.actorName)
+                dbHandler.addActor(helper)
+                holder.favouriteButton.setImageResource(R.drawable.ic_favourite_true)
+            }
+        }
 
-//        holder.itemView.setOnClickListener()
-//
-//        {
-//            val intent = Intent(context,SecondActivity::class.java)
-//            intent.putExtra("name", act.taskName)
-//            intent.putExtra("priority", act.taskPriority)
-//            intent.putExtra("state", act.taskState)
-//            intent.putExtra("id",act.taskid.toString())
-//            ContextCompat.startActivity(context,intent,null)
-//            Log.d("kiciak",act.taskid.toString())
-//        }
     }
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         val actorNameTextView=view.findViewById<TextView>(R.id.titleMovie)
+        val favouriteButton = view.findViewById<ImageButton>(R.id.movieIsFavourite)
     }
 
 

@@ -15,7 +15,7 @@
 
 
         <ImageView
-            android:id="@+id/imageMovie"
+            android:id="@+id/imageDetailMovie"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:src="@mipmap/ic_launcher" />
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="55dp"
-            android:layout_toEndOf="@id/imageMovie"
+            android:layout_toEndOf="@id/imageDetailMovie"
             android:text="Title"
             android:textColor="#000"
             android:textSize="22sp"
@@ -42,7 +42,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="55dp"
-            android:layout_toEndOf="@id/imageMovie"
+            android:layout_toEndOf="@id/imageDetailMovie"
             android:text="text"
             android:textColor="#a9a9a9"
             android:textSize="18sp"

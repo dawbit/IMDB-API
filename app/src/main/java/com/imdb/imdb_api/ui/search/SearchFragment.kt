@@ -41,7 +41,7 @@ class SearchFragment : Fragment() {
     //    rest.BatmanMutableList.observe(this, Observer { tester.text = it.Search.first().Title})
         val restFilmClass = RestFilmClass()
         val recyclerView = view!!.findViewById<RecyclerView>(R.id.recyclerViewSearch)
-        val adapter = AdapterSearch()
+        val adapter = AdapterSearch(requireContext())
         restFilmClass.BatmanMutableList.observe(this, Observer { if (it!=null)adapter.setMovies(ArrayList(it.Search))
         else adapter.itemAmount()
         })

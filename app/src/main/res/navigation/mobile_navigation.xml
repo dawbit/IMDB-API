@@ -36,5 +36,10 @@
         android:name="com.imdb.imdb_api.ui.search.SearchFragment"
         android:label="@string/menu_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/nav_film_detail"
+        android:name="com.imdb.imdb_api.ui.films.filmDetail.DetailFilmFragment"
+        android:label="@string/menu_films"
+        tools:layout="@layout/fragment_detail_film"/>
 
 </navigation>

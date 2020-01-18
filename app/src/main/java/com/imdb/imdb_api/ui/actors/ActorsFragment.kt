@@ -49,6 +49,7 @@ class ActorsFragment : Fragment() {
         recyclerView.adapter = adapter
 
         recyclerView.layoutManager = LinearLayoutManager(context)
+
     }
 
 }

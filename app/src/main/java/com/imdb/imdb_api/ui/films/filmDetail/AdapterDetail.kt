@@ -1,6 +1,7 @@
 package com.example.apka6
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,23 +12,30 @@ import kotlinx.android.synthetic.main.item_movies_rv.view.*
 import java.net.URL
 import java.util.ArrayList
 import com.bumptech.glide.Glide
+import com.imdb.imdb_api.ui.actors.ActorsClass
 import com.imdb.imdb_api.ui.films.FilmsClass
+import com.imdb.imdb_api.ui.films.filmDetail.DetailFilmActorsClass
 
-class AdapterSearch(var context: Context) : RecyclerView.Adapter<AdapterSearch.ViewHolder>() {
+class AdapterDetail(context: Context) : RecyclerView.Adapter<AdapterDetail.ViewHolder>() {
+    private var context= context
+    private var listInAdapterActors = ArrayList<DetailFilmActorsClass>()
 
-    private var listInAdapter = ArrayList<SearchFilmApi>()
+    fun setData(list: String){
+        Log.d("czekie", list)
+        var result = list.split(",").map { it.trim() }
 
-    fun setMovies(list: ArrayList<SearchFilmApi>){
-        listInAdapter= list
+        result.forEach {
+            var asdList = DetailFilmActorsClass(it.toString())
+            listInAdapterActors.add(asdList)
+        }
+
         notifyDataSetChanged()
     }
 
 
 
     inner class  ViewHolder(view:View):RecyclerView.ViewHolder(view){
-        val movieTitleTextView = view.titleMovie!!
-        val movieYearTextView = view.yearMovie!!
-        val moviePosterImageView = view.imageDetailMovie!!
+        val NameTextView = view.titleMovie!!
         val favouriteButton = view.movieIsFavourite
     }
 
@@ -37,42 +45,33 @@ class AdapterSearch(var context: Context) : RecyclerView.Adapter<AdapterSearch.V
     }
 
     override fun getItemCount(): Int {
-        return listInAdapter.size
+        return listInAdapterActors.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val act = listInAdapter[position]
+        val act = listInAdapterActors[position]
 
         var db = DBHelper(context,null)
-        if(db.checkFilm(act.Title, act.Year)==1){
+        if(db.checkActor(act.Actors)==1){
             holder.favouriteButton.setImageResource(R.drawable.ic_favourite_true)
         }
-        holder.movieTitleTextView.text=act.Title
-        holder.movieYearTextView.text=act.Year
-        if(act.Poster!="N/A") {
-            val url = URL(act.Poster)
-            Glide.with(context)
-                .load(url)
-                .into(holder.moviePosterImageView)
-        }
+        holder.NameTextView.text=act.Actors
+
 
     holder.favouriteButton.setOnClickListener{
-        if(db.checkFilm(act.Title, act.Year)==1) {
-            db.delFilm(act.Title, act.Year)
+        if(db.checkActor(act.Actors)==1) {
+            db.delActor(act.Actors)
             holder.favouriteButton.setImageResource(R.drawable.ic_favourite_false)
         }
         else {
-            var helper = FilmsClass(act.Title, act.Year, act.Poster)
-            db.addFilm(helper)
+            var helper = ActorsClass(act.Actors)
+            db.addActor(helper)
             holder.favouriteButton.setImageResource(R.drawable.ic_favourite_true)
         }
     }
 
     }
 
-    fun itemAmount(){
-        listInAdapter = ArrayList()
-        notifyDataSetChanged()
-    }
+
 
 }

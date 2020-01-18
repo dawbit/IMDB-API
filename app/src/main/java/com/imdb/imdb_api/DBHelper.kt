@@ -18,31 +18,31 @@ class DBHelper(
 
     companion object{
         internal const val DATA_BASE_NAME = "DataBaseFilms.db"
-        internal const val DATA_BASE_VERSION = 2
+        internal const val DATA_BASE_VERSION = 7
         internal const val TABLE_FILMS = "films"
         internal const val TABLE_ACTORS = "actors"
         internal const val TABLE_DIRECTORS = "directors"
         internal const val COL_ID = "id"
-        internal const val COL_FORENAME = "forename"
-        internal const val COL_LASTNAME = "lastname"
+        internal const val COL_NAME = "name"
         internal const val COL_TITLE = "title"
         internal const val COL_YEAR = "year"
+        internal const val COL_POSTER = "poster"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
         val create_films_table = (
-                "CREATE TABLE IF NOT EXISTS $TABLE_FILMS ($COL_ID INTEGER PRIMARY KEY, $COL_TITLE TEXT, $COL_YEAR TEXT)"
+                "CREATE TABLE IF NOT EXISTS $TABLE_FILMS ($COL_ID INTEGER PRIMARY KEY, $COL_TITLE TEXT, $COL_YEAR TEXT, $COL_POSTER)"
                 )
         val create_actors_table = (
-                "CREATE TABLE IF NOT EXISTS $TABLE_ACTORS ($COL_ID INTEGER PRIMARY KEY, $COL_FORENAME TEXT, $COL_LASTNAME TEXT)"
+                "CREATE TABLE IF NOT EXISTS $TABLE_ACTORS ($COL_ID INTEGER PRIMARY KEY, $COL_NAME TEXT)"
                 )
         val create_directors_table = (
-                "CREATE TABLE IF NOT EXISTS $TABLE_DIRECTORS ($COL_ID INTEGER PRIMARY KEY, $COL_FORENAME TEXT, $COL_LASTNAME TEXT)"
+                "CREATE TABLE IF NOT EXISTS $TABLE_DIRECTORS ($COL_ID INTEGER PRIMARY KEY, $COL_NAME TEXT)"
                 )
         Log.d("xdd","SDFgsdg" )
         db!!.execSQL(create_directors_table)
-        db!!.execSQL(create_films_table)
-        db!!.execSQL(create_actors_table)
+        db.execSQL(create_films_table)
+        db.execSQL(create_actors_table)
         Log.d("xdd","SDFgsdg" )
     }
 
@@ -59,6 +59,7 @@ class DBHelper(
         values.put(COL_ID, film.filmID)
         values.put(COL_TITLE, film.filmTitle)
         values.put(COL_YEAR, film.filmYear)
+        values.put(COL_POSTER, film.filmPoster)
         val db = this.writableDatabase
         db.insert(TABLE_FILMS, null, values)
         db.close()
@@ -75,24 +76,24 @@ class DBHelper(
                     val id = cursor.getLong(cursor.getColumnIndex(COL_ID))
                     val title = cursor.getString(cursor.getColumnIndex(COL_TITLE))
                     val year = cursor.getString(cursor.getColumnIndex(COL_YEAR))
-                    FilmList.add(FilmsClass(title, year, id))
+                    val poster = cursor.getString(cursor.getColumnIndex(COL_POSTER))
+                    FilmList.add(FilmsClass(title, year, poster,  id))
                 }while(cursor.moveToNext())
             }
             db.close()
 
             return FilmList
         }
-    fun delFilm(id:String){
+    fun delFilm(title: String, year: String){
         val db = this.writableDatabase
 
-        db.execSQL("DELETE FROM " + TABLE_FILMS + " WHERE $COL_ID='" + id + "'")
+        db.execSQL("DELETE FROM " + TABLE_FILMS + " WHERE $COL_TITLE= '$title' and $COL_YEAR= '$year'")
         db.close()
     }
     fun addActor(actor : ActorsClass){
         val values = ContentValues()
         values.put(COL_ID, actor.actorID)
-        values.put(COL_FORENAME, actor.actorForeName)
-        values.put(COL_LASTNAME, actor.actorLastName)
+        values.put(COL_NAME, actor.actorName)
         val db = this.writableDatabase
         db.insert(TABLE_ACTORS, null, values)
         db.close()
@@ -107,25 +108,24 @@ class DBHelper(
             if(cursor.moveToFirst()){
                 do{
                     val id = cursor.getLong(cursor.getColumnIndex(COL_ID))
-                    val forename = cursor.getString(cursor.getColumnIndex(COL_FORENAME))
-                    val lastname = cursor.getString(cursor.getColumnIndex(COL_LASTNAME))
-                    ActorList.add(ActorsClass(forename, lastname, id))
+                    val name = cursor.getString(cursor.getColumnIndex(COL_NAME))
+                    ActorList.add(ActorsClass(name, id))
                 }while(cursor.moveToNext())
             }
             db.close()
 
             return ActorList
         }
-    fun delActor(id:String){
+    fun delActor(title:String){
         val db = this.writableDatabase
-        db.execSQL("DELETE FROM " + TABLE_ACTORS + " WHERE $COL_ID='" + id + "'")
+
+        db.execSQL("DELETE FROM " + TABLE_ACTORS + " WHERE $COL_NAME= '$title'")
         db.close()
     }
     fun addDirector(director : DirectorsClass){
         val values = ContentValues()
         values.put(COL_ID, director.directorID)
-        values.put(COL_FORENAME, director.directorForeName)
-        values.put(COL_LASTNAME, director.directorLastName)
+        values.put(COL_NAME, director.directorName)
         val db = this.writableDatabase
         db.insert(TABLE_DIRECTORS, null, values)
         db.close()
@@ -140,9 +140,8 @@ class DBHelper(
             if(cursor.moveToFirst()){
                 do{
                     val id = cursor.getLong(cursor.getColumnIndex(COL_ID))
-                    val forename = cursor.getString(cursor.getColumnIndex(COL_FORENAME))
-                    val lastname = cursor.getString(cursor.getColumnIndex(COL_LASTNAME))
-                    DirectorList.add(DirectorsClass(forename, lastname, id))
+                    val name = cursor.getString(cursor.getColumnIndex(COL_NAME))
+                    DirectorList.add(DirectorsClass(name, id))
                 }while(cursor.moveToNext())
             }
             db.close()
@@ -151,8 +150,36 @@ class DBHelper(
         }
     fun delDirector(id:String){
         val db = this.writableDatabase
-        db.execSQL("DELETE FROM " + TABLE_DIRECTORS + " WHERE $COL_ID='" + id + "'")
+        db.execSQL("DELETE FROM " + TABLE_DIRECTORS + " WHERE $COL_NAME='" + id + "'")
         db.close()
+    }
+
+    fun checkFilm (title: String, year: String) :Int  {
+        val i :Int
+        val db = this.readableDatabase
+        val cursor = db!!.rawQuery("SELECT * FROM $TABLE_FILMS WHERE $COL_TITLE= '$title' and $COL_YEAR= '$year'", null)
+        Log.d("cycki" ,cursor.count.toString())
+        i=cursor.count.toString().toInt()
+        db.close()
+        return i
+    }
+    fun checkActor (title: String) :Int  {
+        val i :Int
+        val db = this.readableDatabase
+        val cursor = db!!.rawQuery("SELECT * FROM $TABLE_ACTORS WHERE $COL_NAME= '$title'", null)
+        Log.d("cycki" ,cursor.count.toString())
+        i=cursor.count.toString().toInt()
+        db.close()
+        return i
+    }
+    fun checkDirector (title: String) :Int  {
+        val i :Int
+        val db = this.readableDatabase
+        val cursor = db!!.rawQuery("SELECT * FROM $TABLE_DIRECTORS WHERE $COL_NAME= '$title'", null)
+        Log.d("cycki" ,cursor.count.toString())
+        i=cursor.count.toString().toInt()
+        db.close()
+        return i
     }
 
 }
