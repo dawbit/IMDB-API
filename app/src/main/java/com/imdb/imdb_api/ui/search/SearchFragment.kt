@@ -56,7 +56,7 @@ class SearchFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 searchViewModel.setSearchStringMovie(s.toString())
                 if(s.toString().length>2) {
-                    searchViewModel.setSearchStringMovie(s.toString().trim())
+                    searchViewModel.setSearchStringMovie(s.toString().trim() + "*")
                 }
             }
 
