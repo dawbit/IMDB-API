@@ -58,9 +58,22 @@
             android:layout_alignParentRight="true"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
+            android:visibility="visible"
             android:layout_marginRight="10dp"
             android:layout_toStartOf="@id/titleMovie"
             android:src="@drawable/ic_favourite_false" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/movieIsFavouriteTrue"
+            android:layout_width="50dp"
+
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:visibility="invisible"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toStartOf="@id/titleMovie"
+            android:src="@drawable/ic_favourite_true" />
 
 
     </RelativeLayout>

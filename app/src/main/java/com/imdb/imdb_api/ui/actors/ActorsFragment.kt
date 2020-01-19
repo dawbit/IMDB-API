@@ -2,6 +2,7 @@ package com.imdb.imdb_api.ui.actors
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,23 +34,25 @@ class ActorsFragment : Fragment() {
         actorsViewModel =
             ViewModelProviders.of(this).get(ActorsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_database, container, false)
-//        val textView: TextView = root.findViewById(R.id.textView_database)
-//        actorsViewModel.text.observe(this, Observer {
-//            textView.text = it
-//        })
         return root
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val dbHelper = DBHelper(requireContext(), null)
         val recyclerView = view!!.findViewById<RecyclerView>(R.id.recyclerViewer)
-        val adapter = AdapterActors(requireContext(), dbHelper.allActors)
+        val adapter = AdapterActors(requireContext(), getAllActorsFromDB(), ::viewActorClassToDataBase)
 
         recyclerView.adapter = adapter
 
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+    }
+    private fun viewActorClassToDataBase(c : ActorsClass){
+        actorsViewModel.getClassToMakeChangeInDB(c, requireContext())
+    }
+
+    private fun getAllActorsFromDB() :MutableList<ActorsClass>{
+        return actorsViewModel.getAllActorsFromDB(requireContext())
     }
 
 }

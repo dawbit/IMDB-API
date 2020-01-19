@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
@@ -24,9 +25,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.net.URL
 
-class AdapterFilms(val context: Context, val filmlist: MutableList<FilmsClass>): RecyclerView.Adapter<AdapterFilms.ViewHolder>() {
+class AdapterFilms(val context: Context, val filmlist: MutableList<FilmsClass>, viewFilmClassToDataBase: (c:FilmsClass) -> Unit
+                    , changeFragmentToFilmDetail: (c:FilmsClass) -> Unit): RecyclerView.Adapter<AdapterFilms.ViewHolder>() {
+    private var viewFilmClassToDataBase : ((FilmsClass) -> Unit)? = null
+    private var changeFragmentToFilmDetail : ((FilmsClass) -> Unit)? = null
     init {
         filmlist.sortBy { it.filmID }
+        this.viewFilmClassToDataBase=viewFilmClassToDataBase
+        this.changeFragmentToFilmDetail=changeFragmentToFilmDetail
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
@@ -39,11 +45,9 @@ class AdapterFilms(val context: Context, val filmlist: MutableList<FilmsClass>):
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var dbHandler = DBHelper(context, null)
         val fil = filmlist[position]
         holder.filmTitleTextView.text = fil.filmTitle
         holder.filmYearTextView.text = fil.filmYear
-        holder.favouriteButton.setImageResource(R.drawable.ic_favourite_true)
 
         if(fil.filmPoster!="N/A") {
             val url = URL(fil.filmPoster)
@@ -51,29 +55,22 @@ class AdapterFilms(val context: Context, val filmlist: MutableList<FilmsClass>):
                 .load(url)
                 .into(holder.moviePosterImageView)
         }
+
+        holder.favouriteButtonTrue.isVisible = true
+        holder.favouriteButton.isVisible = false
+
+        holder.favouriteButtonTrue.setOnClickListener{
+            viewFilmClassToDataBase?.let { it1 -> it1(fil) }
+            holder.favouriteButton.isVisible = true
+            holder.favouriteButtonTrue.isVisible =false
+        }
         holder.favouriteButton.setOnClickListener{
-            if(dbHandler.checkFilm(fil.filmTitle, fil.filmYear)==1) {
-                dbHandler.delFilm(fil.filmTitle, fil.filmYear)
-                holder.favouriteButton.setImageResource(R.drawable.ic_favourite_false)
-            }
-            else {
-                var helper = FilmsClass(fil.filmTitle, fil.filmYear, fil.filmPoster)
-                dbHandler.addFilm(helper)
-                holder.favouriteButton.setImageResource(R.drawable.ic_favourite_true)
-            }
+            viewFilmClassToDataBase?.let { it1 -> it1(fil) }
+            holder.favouriteButtonTrue.isVisible = true
+            holder.favouriteButton.isVisible =false
         }
         holder.itemView.setOnClickListener{
-
-            (it.context as MainActivity).findNavController(R.id.nav_host_fragment).navigate(R.id.nav_film_detail).apply {
-                (it.context as MainActivity).findNavController(R.id.nav_host_fragment)
-                    .currentDestination?.label = fil.filmTitle
-                (it.context as MainActivity).onBackPressed()
-                (it.context as MainActivity).findNavController(R.id.nav_host_fragment).navigate(R.id.nav_film_detail)
-            }
-            val intent = Intent(context,DetailFilmFragment::class.java)
-            intent.putExtra("movieTitle", fil.filmTitle)
-            intent.putExtra("movieYear", fil.filmYear)
-            intent.putExtra("moviePoster", fil.filmPoster)
+            changeFragmentToFilmDetail?.let { it1 -> it1(fil) }
         }
     }
 
@@ -82,6 +79,7 @@ class AdapterFilms(val context: Context, val filmlist: MutableList<FilmsClass>):
         val filmYearTextView=view.findViewById<TextView>(R.id.yearMovie)
         val moviePosterImageView = view.findViewById<ImageView>(R.id.imageDetailMovie)
         val favouriteButton = view.findViewById<ImageButton>(R.id.movieIsFavourite)
+        val favouriteButtonTrue = view.findViewById<ImageButton>(R.id.movieIsFavouriteTrue)
     }
 
 

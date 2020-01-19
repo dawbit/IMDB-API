@@ -1,9 +1,11 @@
 package com.example.apka6
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.imdb.imdb_api.R
 import com.imdb.imdb_api.ui.search.SearchFilmApi
@@ -12,23 +14,32 @@ import java.net.URL
 import java.util.ArrayList
 import com.bumptech.glide.Glide
 import com.imdb.imdb_api.ui.films.FilmsClass
+import com.imdb.imdb_api.ui.search.SearchViewModel
 
-class AdapterSearch(var context: Context) : RecyclerView.Adapter<AdapterSearch.ViewHolder>() {
+class AdapterSearch(var context: Context,viewFilmClassToDataBase: (c:SearchFilmApi) -> Int, viewFilmAddDelToDataBase: (c:SearchFilmApi) -> Unit) : RecyclerView.Adapter<AdapterSearch.ViewHolder>() {
 
+
+    private var viewFilmClassToDataBase: ((SearchFilmApi) -> Int)? = null
+    private var viewFilmAddDelToDataBase: ((SearchFilmApi) -> Unit)? = null
     private var listInAdapter = ArrayList<SearchFilmApi>()
+
+    init{
+        this.viewFilmClassToDataBase = viewFilmClassToDataBase
+        this.viewFilmAddDelToDataBase=viewFilmAddDelToDataBase
+    }
 
     fun setMovies(list: ArrayList<SearchFilmApi>){
         listInAdapter= list
+
         notifyDataSetChanged()
     }
-
-
 
     inner class  ViewHolder(view:View):RecyclerView.ViewHolder(view){
         val movieTitleTextView = view.titleMovie!!
         val movieYearTextView = view.yearMovie!!
         val moviePosterImageView = view.imageDetailMovie!!
         val favouriteButton = view.movieIsFavourite
+        val favouriteButtonTrue = view.movieIsFavouriteTrue
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -43,9 +54,13 @@ class AdapterSearch(var context: Context) : RecyclerView.Adapter<AdapterSearch.V
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val act = listInAdapter[position]
 
-        var db = DBHelper(context,null)
-        if(db.checkFilm(act.Title, act.Year)==1){
-            holder.favouriteButton.setImageResource(R.drawable.ic_favourite_true)
+        if(viewFilmClassToDataBase?.let { it(act) } ==1){
+            holder.favouriteButtonTrue.isVisible=true
+            holder.favouriteButton.isVisible=false
+        }
+        else{
+            holder.favouriteButtonTrue.isVisible=false
+            holder.favouriteButton.isVisible=true
         }
         holder.movieTitleTextView.text=act.Title
         holder.movieYearTextView.text=act.Year
@@ -56,18 +71,16 @@ class AdapterSearch(var context: Context) : RecyclerView.Adapter<AdapterSearch.V
                 .into(holder.moviePosterImageView)
         }
 
-    holder.favouriteButton.setOnClickListener{
-        if(db.checkFilm(act.Title, act.Year)==1) {
-            db.delFilm(act.Title, act.Year)
-            holder.favouriteButton.setImageResource(R.drawable.ic_favourite_false)
+        holder.favouriteButtonTrue.setOnClickListener{
+            viewFilmAddDelToDataBase?.let { it1 -> it1(act) }
+            holder.favouriteButton.isVisible = true
+            holder.favouriteButtonTrue.isVisible =false
         }
-        else {
-            var helper = FilmsClass(act.Title, act.Year, act.Poster)
-            db.addFilm(helper)
-            holder.favouriteButton.setImageResource(R.drawable.ic_favourite_true)
+        holder.favouriteButton.setOnClickListener{
+            viewFilmAddDelToDataBase?.let { it1 -> it1(act) }
+            holder.favouriteButtonTrue.isVisible = true
+            holder.favouriteButton.isVisible =false
         }
-    }
-
     }
 
     fun itemAmount(){

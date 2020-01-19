@@ -32,22 +32,22 @@ class DirectorsFragment : Fragment() {
         directorsViewModel =
             ViewModelProviders.of(this).get(DirectorsViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_database, container, false)
-//        val textView: TextView = root.findViewById(R.id.textView_database)
-//        directorsViewModel.text.observe(this, Observer {
-//            textView.text = it
-//        })
         return root
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val dbHelper = DBHelper(requireContext(), null)
         val recyclerView = view!!.findViewById<RecyclerView>(R.id.recyclerViewer)
-        val adapter = AdapterDirectors(requireContext(), dbHelper.allDirectors)
+        val adapter = AdapterDirectors(requireContext(), getAllActorsFromDB() , ::viewDirectorClassToDataBase)
 
         recyclerView.adapter = adapter
 
         recyclerView.layoutManager = LinearLayoutManager(context)
     }
-
+    fun viewDirectorClassToDataBase(c : DirectorsClass){
+        directorsViewModel.getClassToMakeChangeInDB(c, requireContext())
+    }
+    private fun getAllActorsFromDB(): MutableList<DirectorsClass> {
+        return directorsViewModel.getAllActorsFromDB(requireContext())
+    }
 }

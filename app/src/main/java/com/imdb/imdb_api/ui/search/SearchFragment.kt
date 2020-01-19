@@ -35,14 +35,12 @@ class SearchFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        searchViewModel = activity!!.run{ViewModelProviders.of(this).get(searchViewModel::class.java)}
-    //    var rest= RestFilmClass()
+       // searchViewModel = activity!!.run{ViewModelProviders.of(this).get(searchViewModel::class.java)}
 
-    //    rest.BatmanMutableList.observe(this, Observer { tester.text = it.Search.first().Title})
-        val restFilmClass = RestFilmClass()
+        restClassStart()
         val recyclerView = view!!.findViewById<RecyclerView>(R.id.recyclerViewSearch)
-        val adapter = AdapterSearch(requireContext())
-        restFilmClass.BatmanMutableList.observe(this, Observer { if (it!=null)adapter.setMovies(ArrayList(it.Search))
+        val adapter = AdapterSearch(requireContext(), ::checkIfFilmIsFavourite, ::viewFilmAddDelToDataBase)
+        searchViewModel.batmanMutableList.observe(this, Observer { if (it!=null)adapter.setMovies(ArrayList(it.Search))
         else adapter.itemAmount()
         })
         recyclerView.adapter = adapter
@@ -58,12 +56,21 @@ class SearchFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 searchViewModel.setSearchStringMovie(s.toString())
                 if(s.toString().length>2) {
-                    Log.d("pici", s.toString().trim())
-                    restFilmClass.searching(s.toString().trim())
+                    searchViewModel.setSearchStringMovie(s.toString().trim())
                 }
             }
 
 
         })
+    }
+    private fun checkIfFilmIsFavourite(c : SearchFilmApi) :Int{
+       return searchViewModel.checkIfFilmIsFavourite(requireContext(), c)
+
+    }
+    private fun viewFilmAddDelToDataBase(c:SearchFilmApi){
+        searchViewModel.viewFilmAddDelToDataBase(requireContext(),c)
+    }
+    private fun restClassStart(){
+        searchViewModel.restClassStart()
     }
 }
