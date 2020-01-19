@@ -11,13 +11,13 @@ import kotlin.reflect.typeOf
 
 class RestDirectorClass : Callback<DetailFilmDirectorClass> {
     var BatmanMutableList: MutableLiveData<DetailFilmDirectorClass> = MutableLiveData()
-    fun searching(s: String) {
+    fun searching(s: String , y:String) {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://www.omdbapi.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val irest = retrofit.create(IActorsDirectorSearch::class.java)
-        val kolejnazmienna = irest.newDirectorSearch(s)
+        val kolejnazmienna = irest.newDirectorSearch(s,y)
         kolejnazmienna.enqueue(this)
     }
 

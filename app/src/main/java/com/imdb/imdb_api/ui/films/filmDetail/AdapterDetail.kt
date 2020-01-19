@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.imdb.imdb_api.R
 import com.imdb.imdb_api.ui.search.SearchFilmApi
@@ -16,11 +17,17 @@ import com.imdb.imdb_api.ui.actors.ActorsClass
 import com.imdb.imdb_api.ui.films.FilmsClass
 import com.imdb.imdb_api.ui.films.filmDetail.DetailFilmActorsClass
 
-class AdapterDetail(context: Context) : RecyclerView.Adapter<AdapterDetail.ViewHolder>() {
+class AdapterDetail(context: Context, viewActorClassToDataBase: (c:DetailFilmActorsClass) -> Unit, checkifActorExistsInDB: (c:DetailFilmActorsClass) -> Int) : RecyclerView.Adapter<AdapterDetail.ViewHolder>() {
     private var context= context
     private var listInAdapterActors = ArrayList<DetailFilmActorsClass>()
-
+    private var viewActorClassToDataBase: ((c:DetailFilmActorsClass) -> Unit)?=null
+    private var checkifActorExistsInDB: ((c:DetailFilmActorsClass) -> Int)?=null
+    init {
+        this.viewActorClassToDataBase=viewActorClassToDataBase
+        this.checkifActorExistsInDB=checkifActorExistsInDB
+    }
     fun setData(list: String){
+        listInAdapterActors.clear()
         Log.d("czekie", list)
         var result = list.split(",").map { it.trim() }
 
@@ -37,6 +44,7 @@ class AdapterDetail(context: Context) : RecyclerView.Adapter<AdapterDetail.ViewH
     inner class  ViewHolder(view:View):RecyclerView.ViewHolder(view){
         val NameTextView = view.titleMovie!!
         val favouriteButton = view.movieIsFavourite
+        val favouriteButtonTrue= view.movieIsFavouriteTrue
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -50,25 +58,31 @@ class AdapterDetail(context: Context) : RecyclerView.Adapter<AdapterDetail.ViewH
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val act = listInAdapterActors[position]
-
-        var db = DBHelper(context,null)
-        if(db.checkActor(act.Actors)==1){
-            holder.favouriteButton.setImageResource(R.drawable.ic_favourite_true)
-        }
         holder.NameTextView.text=act.Actors
 
 
-    holder.favouriteButton.setOnClickListener{
-        if(db.checkActor(act.Actors)==1) {
-            db.delActor(act.Actors)
-            holder.favouriteButton.setImageResource(R.drawable.ic_favourite_false)
+        if(checkifActorExistsInDB?.let { it(act) } ==1){
+            holder.favouriteButton.isVisible = false
+            holder.favouriteButtonTrue.isVisible =true
         }
-        else {
-            var helper = ActorsClass(act.Actors)
-            db.addActor(helper)
-            holder.favouriteButton.setImageResource(R.drawable.ic_favourite_true)
+        else{
+            holder.favouriteButton.isVisible = true
+            holder.favouriteButtonTrue.isVisible =false
         }
-    }
+
+
+
+
+        holder.favouriteButtonTrue.setOnClickListener{
+            viewActorClassToDataBase?.let { it1 -> it1(act) }
+            holder.favouriteButton.isVisible = true
+            holder.favouriteButtonTrue.isVisible =false
+        }
+        holder.favouriteButton.setOnClickListener{
+            viewActorClassToDataBase?.let { it1 -> it1(act) }
+            holder.favouriteButtonTrue.isVisible = true
+            holder.favouriteButton.isVisible =false
+        }
 
     }
 

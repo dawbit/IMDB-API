@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.imdb.imdb_api.R
 import com.imdb.imdb_api.ui.search.SearchFilmApi
@@ -18,20 +20,23 @@ import com.imdb.imdb_api.ui.films.FilmsClass
 import com.imdb.imdb_api.ui.films.filmDetail.DetailFilmActorsClass
 import com.imdb.imdb_api.ui.films.filmDetail.DetailFilmDirectorClass
 
-class AdapterDetailDirector(context: Context) : RecyclerView.Adapter<AdapterDetailDirector.ViewHolder>() {
+class AdapterDetailDirector(context: Context, viewDirectorClassToDataBase: (c:DetailFilmDirectorClass) -> Unit, checkifDirectorExistsInDB: (c:DetailFilmDirectorClass) -> Int) : RecyclerView.Adapter<AdapterDetailDirector.ViewHolder>() {
 
     private var context= context
     private var listInAdapterDirector = ArrayList<DetailFilmDirectorClass>()
-
+    private var viewDirectorClassToDataBase: ((c:DetailFilmDirectorClass) -> Unit)?=null
+    private var checkifDirectorExistsInDB: ((c:DetailFilmDirectorClass) -> Int)?=null
+init {
+    this.viewDirectorClassToDataBase=viewDirectorClassToDataBase
+    this.checkifDirectorExistsInDB=checkifDirectorExistsInDB
+}
     fun setData(list: String){
-        Log.d("czekie", list)
         var result = list.split(",").map { it.trim() }
 
         result.forEach {
             var asdList = DetailFilmDirectorClass(it.toString())
             listInAdapterDirector.add(asdList)
         }
-
         notifyDataSetChanged()
     }
 
@@ -39,7 +44,8 @@ class AdapterDetailDirector(context: Context) : RecyclerView.Adapter<AdapterDeta
 
     inner class  ViewHolder(view:View):RecyclerView.ViewHolder(view){
         val NameTextView = view.titleMovie!!
-        val favouriteButton = view.movieIsFavourite
+        val favouriteButton: AppCompatImageButton = view.movieIsFavourite
+        val favouriteButtonTrue: AppCompatImageButton = view.movieIsFavouriteTrue
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -53,25 +59,28 @@ class AdapterDetailDirector(context: Context) : RecyclerView.Adapter<AdapterDeta
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val act = listInAdapterDirector[position]
-
-        var db = DBHelper(context,null)
-        if(db.checkDirector(act.Director)==1){
-            holder.favouriteButton.setImageResource(R.drawable.ic_favourite_true)
-        }
         holder.NameTextView.text=act.Director
 
+        if(checkifDirectorExistsInDB?.let { it(act) } ==1){
+            holder.favouriteButton.isVisible = true
+            holder.favouriteButtonTrue.isVisible =false
+        }
+        else{
+            holder.favouriteButton.isVisible = true
+            holder.favouriteButtonTrue.isVisible =false
+        }
 
-    holder.favouriteButton.setOnClickListener{
-        if(db.checkDirector(act.Director)==1) {
-            db.delDirector(act.Director)
-            holder.favouriteButton.setImageResource(R.drawable.ic_favourite_false)
+
+        holder.favouriteButtonTrue.setOnClickListener{
+            viewDirectorClassToDataBase?.let { it1 -> it1(act) }
+            holder.favouriteButton.isVisible = true
+            holder.favouriteButtonTrue.isVisible =false
         }
-        else {
-            var helper = DirectorsClass(act.Director)
-            db.addDirector(helper)
-            holder.favouriteButton.setImageResource(R.drawable.ic_favourite_true)
+        holder.favouriteButton.setOnClickListener{
+            viewDirectorClassToDataBase?.let { it1 -> it1(act) }
+            holder.favouriteButtonTrue.isVisible = true
+            holder.favouriteButton.isVisible =false
         }
-    }
 
     }
 

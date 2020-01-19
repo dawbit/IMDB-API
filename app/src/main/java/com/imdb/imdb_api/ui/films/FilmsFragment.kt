@@ -33,6 +33,7 @@ class FilmsFragment : Fragment() {
         return root
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+        filmsViewModel = activity!!.run{ViewModelProviders.of(this).get(filmsViewModel::class.java)}
         super.onActivityCreated(savedInstanceState)
         val recyclerView = view!!.findViewById<RecyclerView>(R.id.recyclerViewer)
         val adapter = AdapterFilms(requireContext(), getAllFilmsFromDB(), ::viewFilmClassToDataBase, ::changeFragmentToFilmDetail)
@@ -46,11 +47,6 @@ class FilmsFragment : Fragment() {
         filmsViewModel.getClassToMakeChangeInDB(c, requireContext())
     }
     private fun changeFragmentToFilmDetail (c : FilmsClass){
-//        val intent = Intent(context as MainActivity, DetailFilmFragment::class.java)
-//        intent.putExtra("movieTitle", c.filmTitle)
-//        intent.putExtra("movieYear", c.filmYear)                          TO TRZEBA JESZCZE OGARNAC
-//        intent.putExtra("moviePoster", c.filmPoster)
-
 
         (context as MainActivity).findNavController(R.id.nav_host_fragment).navigate(R.id.nav_film_detail).apply {
             (context as MainActivity).findNavController(R.id.nav_host_fragment)
@@ -59,6 +55,7 @@ class FilmsFragment : Fragment() {
             (context as MainActivity).findNavController(R.id.nav_host_fragment).navigate(R.id.nav_film_detail)
 
         }
+        filmsViewModel.sendData(c)
     }
     private fun getAllFilmsFromDB() : MutableList<FilmsClass>{
         return filmsViewModel.getAllFilmsFromDB(requireContext())

@@ -10,16 +10,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.reflect.typeOf
 
 class RestActorsClass : Callback<DetailFilmActorsClass> {
-    var BatmanMutableList: MutableLiveData<DetailFilmActorsClass> = MutableLiveData()
+    var BatmanMutableList:MutableLiveData<DetailFilmActorsClass> = MutableLiveData()
 
 
-    fun searching(s: String) {
+    fun searching(s: String, y: String) {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://www.omdbapi.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val irest = retrofit.create(IActorsDirectorSearch::class.java)
-        val kolejnazmienna = irest.newActorSearch(s)
+        val kolejnazmienna = irest.newActorSearch(s,y)
         kolejnazmienna.enqueue(this)
     }
 

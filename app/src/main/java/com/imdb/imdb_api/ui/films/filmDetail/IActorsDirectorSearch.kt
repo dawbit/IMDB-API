@@ -6,8 +6,8 @@ import retrofit2.http.Query
 
 interface IActorsDirectorSearch {
     @GET("?apikey=a7a8d1d6")
-    fun newActorSearch(@Query("t") zmienna : String): retrofit2.Call<DetailFilmActorsClass>
+    fun newActorSearch(@Query("t") zmienna : String,@Query("y") zmienna1:String): retrofit2.Call<DetailFilmActorsClass>
 
     @GET ("?apikey=a7a8d1d6")
-    fun newDirectorSearch(@Query("t") zmienna : String): retrofit2.Call<DetailFilmDirectorClass>
+    fun newDirectorSearch(@Query("t") zmienna : String, @Query("y") zmienna1:String): retrofit2.Call<DetailFilmDirectorClass>
 }
