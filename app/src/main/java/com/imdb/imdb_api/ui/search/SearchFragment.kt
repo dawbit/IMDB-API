@@ -1,5 +1,7 @@
 package com.imdb.imdb_api.ui.search
 
+import android.app.Activity
+import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.text.Editable
@@ -9,6 +11,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -54,17 +57,21 @@ class SearchFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                searchViewModel.setSearchStringMovie(s.toString())
+                //searchViewModel.setSearchStringMovie(s.toString())
                 if(s.toString().length>2) {
-                    searchViewModel.setSearchStringMovie(s.toString().trim() + "*")
+                    searchViewModel.setSearchStringMovie(s.toString().trim() + "*" )
                 }
             }
 
 
         })
     }
+
+
     private fun checkIfFilmIsFavourite(c : SearchFilmApi) :Int{
+
        return searchViewModel.checkIfFilmIsFavourite(requireContext(), c)
+
 
     }
     private fun viewFilmAddDelToDataBase(c:SearchFilmApi){
@@ -73,4 +80,5 @@ class SearchFragment : Fragment() {
     private fun restClassStart(){
         searchViewModel.restClassStart()
     }
+
 }

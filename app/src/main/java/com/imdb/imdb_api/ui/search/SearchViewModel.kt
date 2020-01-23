@@ -22,8 +22,10 @@ class SearchViewModel : ViewModel() {
     }
 
     fun checkIfFilmIsFavourite(context: Context, act: SearchFilmApi) : Int{
+        var t = act.Title.replace("'","")
+        t = t.replace("\"", "")
         val db = DBHelper(context, null)
-        return if(db.checkFilm(act.Title, act.Year)==1){
+        return if(db.checkFilm(t, act.Year)==1){
             1
         } else{
             0
