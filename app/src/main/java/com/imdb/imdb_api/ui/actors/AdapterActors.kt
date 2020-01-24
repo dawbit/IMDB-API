@@ -20,11 +20,17 @@ import com.imdb.imdb_api.ui.films.FilmsFragment
 
 class AdapterActors(val context: Context, val actorList: MutableList<ActorsClass>, viewActorClassToDataBase: (c:ActorsClass) -> Unit): RecyclerView.Adapter<AdapterActors.ViewHolder>(), ITest {
     private var viewActorClassToDataBase: ((ActorsClass) -> Unit)? = null
+
     init {
         actorList.sortBy { it.actorID }
         this.viewActorClassToDataBase = viewActorClassToDataBase
     }
-
+//region 1.5
+//    init {
+//        actorList.sortBy { it.actorName }
+//        this.viewActorClassToDataBase = viewActorClassToDataBase
+//    }
+//endregion
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =

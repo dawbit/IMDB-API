@@ -23,6 +23,29 @@ import com.imdb.imdb_api.ui.films.FilmsFragment
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+//region 1.6
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_main)
+//        val toolbar: Toolbar = findViewById(R.id.toolbar)
+//        setSupportActionBar(toolbar)
+//
+//        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+//        val navView: NavigationView = this.findViewById(R.id.nav_view)
+//        val navController = findNavController(R.id.nav_host_fragment)
+//        // Passing each menu ID as a set of Ids because each
+//        // menu should be considered as top level destinations.
+//        appBarConfiguration = AppBarConfiguration(
+//            setOf(
+//                R.id.nav_home,R.id.nav_films, R.id.nav_actors, R.id.nav_directors, R.id.nav_search, R.id.nav_connection_error, R.id.nav_empty_fragment
+//            ), drawerLayout
+//        )
+//        setupActionBarWithNavController(navController, appBarConfiguration)
+//        navView.setupWithNavController(navController)
+//
+//
+//    }
+//endregion
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,22 +79,4 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-//
-//    fun Fragment.hideKeyboard() {
-//        view?.let { activity?.hideKeyboard(it) }
-//    }
-//
-//    fun Activity.hideKeyboard() {
-//        hideKeyboard(currentFocus ?: View(this))
-//    }
-//
-//    fun Context.hideKeyboard(view: View) {
-//        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-//        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-//    }
-
-//    fun hideKeyboard(view: View) {
-//        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-//        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)}
-
 }

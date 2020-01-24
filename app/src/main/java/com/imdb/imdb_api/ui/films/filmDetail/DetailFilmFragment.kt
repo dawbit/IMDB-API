@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,9 +21,11 @@ import com.example.apka6.AdapterDetailDirector
 import com.imdb.imdb_api.R
 import com.imdb.imdb_api.ui.films.FilmsClass
 import com.imdb.imdb_api.ui.films.FilmsViewModel
+import kotlinx.android.synthetic.main.fragment_detail_film.*
 import kotlinx.android.synthetic.main.item_movies_rv.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 import java.net.URL
+import kotlinx.android.synthetic.main.fragment_detail_film.imageDetailMovie as imageDetailMovie1
 
 /**
  * A simple [Fragment] subclass.
@@ -66,9 +69,26 @@ class DetailFilmFragment : Fragment() {
             Glide.with(requireContext())
                 .load(url)
                 .into(imageDetailMovie)
+        }})
 
-        } })
+//region 1.2
+//        filmsViewModel.filmClass.observe(this, Observer {
+//            if(it.filmPoster!="N/A") {
+//                val url = URL(it.filmPoster)
+//                Glide.with(requireContext())
+//                    .load(url)
+//                    .into(imageDetailMovie)
+//
+//            }
+//            adapterActor.imageForActors(it.filmPoster) //1.2
+//        })
+//endregion
 
+//region 1.1
+//        filmsViewModel.filmClass.observe(this, Observer {
+//            titleImage.text = it.filmTitle
+//        })
+//endregion
         recyclerActorsView.adapter = adapterActor
         recyclerDirectorView.adapter = adapterDirector
 

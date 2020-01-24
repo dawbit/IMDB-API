@@ -4,6 +4,7 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+<!--Zamienić miejscami-->
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
@@ -25,6 +26,11 @@
             android:id="@+id/nav_directors"
             android:icon="@drawable/ic_menu_directors"
             android:title="@string/menu_directors" />
+<!--1.6-->
+<!--        <item-->
+<!--            android:id="@+id/nav_empty_fragment"-->
+<!--            android:icon="@drawable/ic_menu_directors"-->
+<!--            android:title="@string/menu_empty" />-->
 
 
 

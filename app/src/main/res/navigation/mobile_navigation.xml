@@ -41,5 +41,10 @@
         android:name="com.imdb.imdb_api.ui.films.filmDetail.DetailFilmFragment"
         android:label="@string/menu_films"
         tools:layout="@layout/fragment_detail_film"/>
-
+<!-- 1.6-->
+    <fragment
+        android:id="@+id/nav_empty_fragment"
+        android:name="com.imdb.imdb_api.ui.empty.BlankFragment"
+        android:label="@string/menu_empty"
+        tools:layout="@layout/fragment_blank"/>
 </navigation>

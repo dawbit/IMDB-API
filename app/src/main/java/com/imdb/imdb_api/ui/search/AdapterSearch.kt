@@ -30,10 +30,16 @@ class AdapterSearch(var context: Context,viewFilmClassToDataBase: (c:SearchFilmA
 
     fun setMovies(list: ArrayList<SearchFilmApi>){
         listInAdapter= list
-
         notifyDataSetChanged()
     }
 
+//region 1.5
+//    fun setMovies(list: ArrayList<SearchFilmApi>){
+//        listInAdapter= list
+//        listInAdapter.sortBy { it.Title }
+//        notifyDataSetChanged()
+//    }
+//endregion
     inner class  ViewHolder(view:View):RecyclerView.ViewHolder(view){
         val movieTitleTextView = view.titleMovie!!
         val movieYearTextView = view.yearMovie!!

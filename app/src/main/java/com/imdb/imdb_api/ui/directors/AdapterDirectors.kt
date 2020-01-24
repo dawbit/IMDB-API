@@ -18,6 +18,14 @@ class AdapterDirectors(val context: Context, val directorsList: MutableList<Dire
         directorsList.sortBy { it.directorID }
         this.viewDirectorClassToDataBase = viewDirectorClassToDataBase
     }
+
+//region 1.5
+//    init {
+//        directorsList.sortBy { it.directorName }
+//        this.viewDirectorClassToDataBase = viewDirectorClassToDataBase
+//    }
+//endregion
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_movies_rv, parent, false)

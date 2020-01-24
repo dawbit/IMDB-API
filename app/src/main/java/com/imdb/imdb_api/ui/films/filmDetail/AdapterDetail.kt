@@ -22,6 +22,7 @@ class AdapterDetail(context: Context, viewActorClassToDataBase: (c:DetailFilmAct
     private var listInAdapterActors = ArrayList<DetailFilmActorsClass>()
     private var viewActorClassToDataBase: ((c:DetailFilmActorsClass) -> Unit)?=null
     private var checkifActorExistsInDB: ((c:DetailFilmActorsClass) -> Int)?=null
+    private lateinit var poster: String
     init {
         this.viewActorClassToDataBase=viewActorClassToDataBase
         this.checkifActorExistsInDB=checkifActorExistsInDB
@@ -38,13 +39,28 @@ class AdapterDetail(context: Context, viewActorClassToDataBase: (c:DetailFilmAct
 
         notifyDataSetChanged()
     }
-
+//region 1.5
+//    fun setData(list: String){
+//        listInAdapterActors.clear()
+//        Log.d("czekie", list)
+//        var result = list.split(",").map { it.trim() }
+//
+//        result.forEach {
+//            var asdList = DetailFilmActorsClass(it.toString())
+//            listInAdapterActors.add(asdList)
+//        }
+//        listInAdapterActors.sortBy { it.Actors }
+//
+//        notifyDataSetChanged()
+//    }
+//endregion
 
 
     inner class  ViewHolder(view:View):RecyclerView.ViewHolder(view){
         val NameTextView = view.titleMovie!!
         val favouriteButton = view.movieIsFavourite
         val favouriteButtonTrue= view.movieIsFavouriteTrue
+        val actorImage = view.imageDetailMovie //1.2
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -70,9 +86,6 @@ class AdapterDetail(context: Context, viewActorClassToDataBase: (c:DetailFilmAct
             holder.favouriteButtonTrue.isVisible =false
         }
 
-
-
-
         holder.favouriteButtonTrue.setOnClickListener{
             viewActorClassToDataBase?.let { it1 -> it1(act) }
             holder.favouriteButton.isVisible = true
@@ -86,6 +99,47 @@ class AdapterDetail(context: Context, viewActorClassToDataBase: (c:DetailFilmAct
 
     }
 
+//region 1.2
+//    fun imageForActors(jakisString: String){
+//        poster = jakisString
+//    }
+//
+//    override fun onBindViewHolder(holder: ViewHolder, position: Int){
+//
+//        if(poster!="N/A") {
+//            val url = URL(poster)
+//            Glide.with(context)
+//                .load(url)
+//                .into(holder.actorImage)
+//
+//        }
+//
+//        val act = listInAdapterActors[position]
+//        holder.NameTextView.text=act.Actors
+//
+//
+//        if(checkifActorExistsInDB?.let { it(act) } ==1){
+//            holder.favouriteButton.isVisible = false
+//            holder.favouriteButtonTrue.isVisible =true
+//        }
+//        else{
+//            holder.favouriteButton.isVisible = true
+//            holder.favouriteButtonTrue.isVisible =false
+//        }
+//
+//        holder.favouriteButtonTrue.setOnClickListener{
+//            viewActorClassToDataBase?.let { it1 -> it1(act) }
+//            holder.favouriteButton.isVisible = true
+//            holder.favouriteButtonTrue.isVisible =false
+//        }
+//        holder.favouriteButton.setOnClickListener{
+//            viewActorClassToDataBase?.let { it1 -> it1(act) }
+//            holder.favouriteButtonTrue.isVisible = true
+//            holder.favouriteButton.isVisible =false
+//        }
+//
+//    }
+//endregion
 
 
 }

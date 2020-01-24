@@ -34,6 +34,15 @@ class AdapterFilms(val context: Context, val filmlist: MutableList<FilmsClass>, 
         this.viewFilmClassToDataBase=viewFilmClassToDataBase
         this.changeFragmentToFilmDetail=changeFragmentToFilmDetail
     }
+
+//region 1.5
+//    init {
+//        filmlist.sortBy { it.filmTitle }
+//        this.viewFilmClassToDataBase=viewFilmClassToDataBase
+//        this.changeFragmentToFilmDetail=changeFragmentToFilmDetail
+//    }
+//endregion
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.item_movies_rv, parent, false)
