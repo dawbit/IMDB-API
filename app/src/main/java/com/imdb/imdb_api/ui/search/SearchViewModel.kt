@@ -37,7 +37,7 @@ class SearchViewModel : ViewModel() {
         if (dbHandler.checkFilm(act.Title, act.Year) == 1) {
             dbHandler.delFilm(act.Title, act.Year)
         } else {
-            val helper = FilmsClass(act.Title, act.Year,act.Poster)
+            val helper = FilmsClass(act.Title, act.Year,act.Poster, act.imdbID)
             dbHandler.addFilm(helper)
         }
     }

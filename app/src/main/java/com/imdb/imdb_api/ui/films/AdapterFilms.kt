@@ -23,10 +23,12 @@ import com.imdb.imdb_api.ui.films.FilmsFragment
 import com.imdb.imdb_api.ui.films.filmDetail.DetailFilmFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.item_movies_rv.view.*
 import java.net.URL
 
+@Suppress("DEPRECATION")
 class AdapterFilms(val context: Context, val filmlist: MutableList<FilmsClass>, viewFilmClassToDataBase: (c:FilmsClass) -> Unit
-                    , changeFragmentToFilmDetail: (c:FilmsClass) -> Unit): RecyclerView.Adapter<AdapterFilms.ViewHolder>() {
+                   , changeFragmentToFilmDetail: (c:FilmsClass) -> Unit): RecyclerView.Adapter<AdapterFilms.ViewHolder>() {
     private var viewFilmClassToDataBase : ((FilmsClass) -> Unit)? = null
     private var changeFragmentToFilmDetail : ((FilmsClass) -> Unit)? = null
     init {
@@ -57,7 +59,7 @@ class AdapterFilms(val context: Context, val filmlist: MutableList<FilmsClass>, 
         val fil = filmlist[position]
         holder.filmTitleTextView.text = fil.filmTitle
         holder.filmYearTextView.text = fil.filmYear
-
+        //holder.filmRate.text=fil.imdbID 2.2
         if(fil.filmPoster!="N/A") {
             val url = URL(fil.filmPoster)
             Glide.with(context)
@@ -89,6 +91,7 @@ class AdapterFilms(val context: Context, val filmlist: MutableList<FilmsClass>, 
         val moviePosterImageView = view.findViewById<ImageView>(R.id.imageDetailMovie)
         val favouriteButton = view.findViewById<ImageButton>(R.id.movieIsFavourite)
         val favouriteButtonTrue = view.findViewById<ImageButton>(R.id.movieIsFavouriteTrue)
+       // val filmRate = view.findViewById<TextView>(R.id.rateMovie) //2.2
     }
 
 

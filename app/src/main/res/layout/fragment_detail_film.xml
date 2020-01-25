@@ -23,6 +23,19 @@
 <!--            android:layout_height="match_parent"-->
 <!--            />-->
 
+<!-- 2.1       <Button-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Go to IMDB"-->
+<!--            android:id="@+id/imdbButton"/>-->
+
+
+<!--  2.4 2.5 2.6      <TextView-->
+<!--            android:id="@+id/zadanie2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            />-->
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"

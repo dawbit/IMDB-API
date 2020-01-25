@@ -16,7 +16,8 @@ import com.bumptech.glide.Glide
 import com.imdb.imdb_api.ui.films.FilmsClass
 import com.imdb.imdb_api.ui.search.SearchViewModel
 
-class AdapterSearch(var context: Context,viewFilmClassToDataBase: (c:SearchFilmApi) -> Int, viewFilmAddDelToDataBase: (c:SearchFilmApi) -> Unit) : RecyclerView.Adapter<AdapterSearch.ViewHolder>() {
+@Suppress("DEPRECATION")
+class AdapterSearch(var context: Context, viewFilmClassToDataBase: (c:SearchFilmApi) -> Int, viewFilmAddDelToDataBase: (c:SearchFilmApi) -> Unit) : RecyclerView.Adapter<AdapterSearch.ViewHolder>() {
 
 
     private var viewFilmClassToDataBase: ((SearchFilmApi) -> Int)? = null

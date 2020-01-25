@@ -2,6 +2,7 @@ package com.imdb.imdb_api.ui.films.filmDetail
 
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -30,7 +31,7 @@ import kotlinx.android.synthetic.main.fragment_detail_film.imageDetailMovie as i
 /**
  * A simple [Fragment] subclass.
  */
-@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "DEPRECATION")
 class DetailFilmFragment : Fragment() {
     private lateinit var filmsViewModel: FilmsViewModel
     override fun onCreateView(
@@ -58,7 +59,7 @@ class DetailFilmFragment : Fragment() {
 
 
         filmsViewModel.batmanMutableActorList.observe(this, Observer { adapterActor.setData(it.Actors)
-
+           // 2.6/2,4/2.5  zadanie2.text=it.    Runtime/Plot/costam
         })
         filmsViewModel.batmanMutableDirectorList.observe(this, Observer { adapterDirector.setData(it.Director)})
 
@@ -69,7 +70,15 @@ class DetailFilmFragment : Fragment() {
             Glide.with(requireContext())
                 .load(url)
                 .into(imageDetailMovie)
-        }})
+        }
+        })
+//region 2.1
+//        imdbButton.setOnClickListener(){
+//            val openURL = Intent(Intent.ACTION_VIEW)
+//            openURL.data = Uri.parse("https://www.imdb.com/title/" + filmsViewModel.filmClass.value?.imdbID + "/")
+//            startActivity(openURL)
+//        }
+//endregion
 
 //region 1.2
 //        filmsViewModel.filmClass.observe(this, Observer {

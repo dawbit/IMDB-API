@@ -18,7 +18,7 @@ class DBHelper(
 
     companion object{
         internal const val DATA_BASE_NAME = "DataBaseFilms.db"
-        internal const val DATA_BASE_VERSION = 7
+        internal const val DATA_BASE_VERSION = 10
         internal const val TABLE_FILMS = "films"
         internal const val TABLE_ACTORS = "actors"
         internal const val TABLE_DIRECTORS = "directors"
@@ -27,11 +27,12 @@ class DBHelper(
         internal const val COL_TITLE = "title"
         internal const val COL_YEAR = "year"
         internal const val COL_POSTER = "poster"
+        internal const val COL_IMDBID = "imdbID"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
         val create_films_table = (
-                "CREATE TABLE IF NOT EXISTS $TABLE_FILMS ($COL_ID INTEGER PRIMARY KEY, $COL_TITLE TEXT, $COL_YEAR TEXT, $COL_POSTER)"
+                "CREATE TABLE IF NOT EXISTS $TABLE_FILMS ($COL_ID INTEGER PRIMARY KEY, $COL_TITLE TEXT, $COL_YEAR TEXT, $COL_POSTER, $COL_IMDBID)"
                 )
         val create_actors_table = (
                 "CREATE TABLE IF NOT EXISTS $TABLE_ACTORS ($COL_ID INTEGER PRIMARY KEY, $COL_NAME TEXT)"
@@ -60,6 +61,8 @@ class DBHelper(
         values.put(COL_TITLE, film.filmTitle)
         values.put(COL_YEAR, film.filmYear)
         values.put(COL_POSTER, film.filmPoster)
+        values.put(COL_IMDBID, film.imdbID)
+
         val db = this.writableDatabase
         db.insert(TABLE_FILMS, null, values)
         db.close()
@@ -77,7 +80,9 @@ class DBHelper(
                     val title = cursor.getString(cursor.getColumnIndex(COL_TITLE))
                     val year = cursor.getString(cursor.getColumnIndex(COL_YEAR))
                     val poster = cursor.getString(cursor.getColumnIndex(COL_POSTER))
-                    FilmList.add(FilmsClass(title, year, poster,  id))
+                    val imdbID = cursor.getString(cursor.getColumnIndex(COL_IMDBID))
+
+                    FilmList.add(FilmsClass(title, year, poster, imdbID, id))
                 }while(cursor.moveToNext())
             }
             db.close()

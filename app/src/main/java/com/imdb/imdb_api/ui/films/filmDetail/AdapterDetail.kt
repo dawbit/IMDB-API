@@ -33,7 +33,7 @@ class AdapterDetail(context: Context, viewActorClassToDataBase: (c:DetailFilmAct
         var result = list.split(",").map { it.trim() }
 
         result.forEach {
-            var asdList = DetailFilmActorsClass(it.toString())
+            var asdList = DetailFilmActorsClass(it, "")
             listInAdapterActors.add(asdList)
         }
 
@@ -75,7 +75,6 @@ class AdapterDetail(context: Context, viewActorClassToDataBase: (c:DetailFilmAct
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val act = listInAdapterActors[position]
         holder.NameTextView.text=act.Actors
-
 
         if(checkifActorExistsInDB?.let { it(act) } ==1){
             holder.favouriteButton.isVisible = false
