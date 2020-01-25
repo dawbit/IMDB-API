@@ -47,7 +47,7 @@ class AdapterSearch(var context: Context, viewFilmClassToDataBase: (c:SearchFilm
         val moviePosterImageView = view.imageDetailMovie!!
         val favouriteButton = view.movieIsFavourite
         val favouriteButtonTrue = view.movieIsFavouriteTrue
-        val movieTypeTextView = view.filmType!!
+       // val movieTypeTextView = view.filmType!!
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -71,7 +71,7 @@ class AdapterSearch(var context: Context, viewFilmClassToDataBase: (c:SearchFilm
             holder.favouriteButton.isVisible=true
         }
 
-        //holder.movieTypeTextView.text=act.Type //2.5
+     //   holder.movieTypeTextView.text=act.Type //2.7
         holder.movieTitleTextView.text=act.Title
         holder.movieYearTextView.text=act.Year
 
