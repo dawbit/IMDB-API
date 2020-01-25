@@ -60,6 +60,7 @@ class AdapterFilms(val context: Context, val filmlist: MutableList<FilmsClass>, 
         holder.filmTitleTextView.text = fil.filmTitle
         holder.filmYearTextView.text = fil.filmYear
         //holder.filmRate.text=fil.imdbID 2.2
+
         if(fil.filmPoster!="N/A") {
             val url = URL(fil.filmPoster)
             Glide.with(context)
@@ -92,6 +93,7 @@ class AdapterFilms(val context: Context, val filmlist: MutableList<FilmsClass>, 
         val favouriteButton = view.findViewById<ImageButton>(R.id.movieIsFavourite)
         val favouriteButtonTrue = view.findViewById<ImageButton>(R.id.movieIsFavouriteTrue)
        // val filmRate = view.findViewById<TextView>(R.id.rateMovie) //2.2
+        //val filmTypeTextView=view.findViewById<TextView>(R.id.filmType) // 2.5
     }
 
 

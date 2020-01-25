@@ -54,6 +54,22 @@
 
 
             />
+
+<!--2.5-->
+<!--        <TextView-->
+<!--            android:id="@+id/filmType"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@id/yearMovie"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:layout_marginEnd="55dp"-->
+<!--            android:layout_toEndOf="@id/imageDetailMovie"-->
+<!--            android:text=""-->
+<!--            android:textColor="#a9a9a9"-->
+<!--            android:textSize="18sp"-->
+<!--            />-->
+
         <TextView
             android:id="@+id/rateMovie"
             android:layout_width="match_parent"

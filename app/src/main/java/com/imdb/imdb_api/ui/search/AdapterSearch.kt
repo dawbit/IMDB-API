@@ -47,6 +47,7 @@ class AdapterSearch(var context: Context, viewFilmClassToDataBase: (c:SearchFilm
         val moviePosterImageView = view.imageDetailMovie!!
         val favouriteButton = view.movieIsFavourite
         val favouriteButtonTrue = view.movieIsFavouriteTrue
+        val movieTypeTextView = view.filmType!!
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -69,8 +70,11 @@ class AdapterSearch(var context: Context, viewFilmClassToDataBase: (c:SearchFilm
             holder.favouriteButtonTrue.isVisible=false
             holder.favouriteButton.isVisible=true
         }
+
+        //holder.movieTypeTextView.text=act.Type //2.5
         holder.movieTitleTextView.text=act.Title
         holder.movieYearTextView.text=act.Year
+
         if(act.Poster!="N/A") {
             val url = URL(act.Poster)
             Glide.with(context)

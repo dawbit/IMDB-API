@@ -1,4 +1,8 @@
 package com.imdb.imdb_api.ui.search
 
-class SearchFilmApi(var Title: String, var Poster: String, var Year: String, var imdbID : String) {
+class SearchFilmApi(var Title: String,
+                    var Poster: String,
+                    var Year: String,
+                    var imdbID: String,
+                    var Type: String) {
 }

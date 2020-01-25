@@ -18,7 +18,7 @@ class DBHelper(
 
     companion object{
         internal const val DATA_BASE_NAME = "DataBaseFilms.db"
-        internal const val DATA_BASE_VERSION = 10
+        internal const val DATA_BASE_VERSION = 13
         internal const val TABLE_FILMS = "films"
         internal const val TABLE_ACTORS = "actors"
         internal const val TABLE_DIRECTORS = "directors"
@@ -82,6 +82,7 @@ class DBHelper(
                     val poster = cursor.getString(cursor.getColumnIndex(COL_POSTER))
                     val imdbID = cursor.getString(cursor.getColumnIndex(COL_IMDBID))
 
+                    //FilmList.add(FilmsClass(title, year, poster, imdbID, id))
                     FilmList.add(FilmsClass(title, year, poster, imdbID, id))
                 }while(cursor.moveToNext())
             }
