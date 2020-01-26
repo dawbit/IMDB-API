@@ -11,6 +11,7 @@ import com.imdb.imdb_api.ui.films.filmDetail.DetailFilmActorsClass
 import com.imdb.imdb_api.ui.films.filmDetail.DetailFilmDirectorClass
 import com.imdb.imdb_api.ui.films.filmDetail.RestActorsClass
 import com.imdb.imdb_api.ui.films.filmDetail.RestDirectorClass
+import com.imdb.imdb_api.ui.films.FilmsClass as FilmsClass
 
 class FilmsViewModel:ViewModel() {
 
@@ -21,7 +22,6 @@ class FilmsViewModel:ViewModel() {
     private var restDirectorClass = RestDirectorClass()
     var batmanMutableActorList= MutableLiveData<DetailFilmActorsClass>()
     var batmanMutableDirectorList= MutableLiveData<DetailFilmDirectorClass>()
-
 
 
     fun sendData(c: FilmsClass) {
@@ -79,6 +79,20 @@ class FilmsViewModel:ViewModel() {
     fun checkifDirectorExistsInDB(act:DetailFilmDirectorClass, context: Context): Int {
         val db = DBHelper(context,null)
         return db.checkDirector(act.Director)
+    }
+
+    fun editLike(i: Int , context: Context, title:String, year: String){
+        val db= DBHelper(context, null)
+        db.editLikeFilm(i, title, year)
+    }
+
+    fun getFilmClassName(): LiveData<FilmsClass> {
+        return filmClass
+    }
+    fun getFilmLikeId(context: Context, title: String, year: String):String{
+        val db= DBHelper(context, null)
+        return db.getFilmLikeId( title, year)
+
     }
 
 

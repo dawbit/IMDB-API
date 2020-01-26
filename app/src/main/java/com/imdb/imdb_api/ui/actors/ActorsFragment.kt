@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.example.apka6.DBHelper
 
 import com.imdb.imdb_api.R
 import com.imdb.imdb_api.ui.films.FilmsClass
+import kotlinx.android.synthetic.main.fragment_database.*
 
 /**
  * A simple [Fragment] subclass.
@@ -45,7 +47,12 @@ class ActorsFragment : Fragment() {
         recyclerView.adapter = adapter
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-
+//region zad 2.8
+//        switch1.isVisible=true
+//        switch1.setOnClickListener(){
+//            sortByName(adapter)
+//        }
+//endregion
     }
     private fun viewActorClassToDataBase(c : ActorsClass){
         actorsViewModel.getClassToMakeChangeInDB(c, requireContext())
@@ -54,5 +61,10 @@ class ActorsFragment : Fragment() {
     private fun getAllActorsFromDB() :MutableList<ActorsClass>{
         return actorsViewModel.getAllActorsFromDB(requireContext())
     }
+//region zad 2.8
+//    private fun sortByName(adapter:AdapterActors){
+//        adapter.sortByName(switch1.isChecked)
+//    }
+//endregion
 
 }

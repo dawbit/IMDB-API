@@ -18,12 +18,12 @@ interface ITest {
 //Zadania rozszerzające aplikacje:
 //v1. Dodaj przycisk w Fragmencie "DetailFilmFragment" Pozwalający na otwarcie w przeglądarce strony imdb z danym tytułem filmu //detailfilmfragment && layout detailfilfrag
 //v2. Zwiększ rozmiar imageview w templatce itemu, dodaj jedno textview i dla filmu w FilmFragment dodaj idimdb pobraną z api //layout item movies && adapterfilm
-//3. Dodaj radioGroup do DetailFilmFragment który pozwoli na wybranie jak bardzo ci się film podobał (bardzo/bardzo bardzo/ bardzo bardzo bardzo) (+ połączenie z bazą danych)
+//v3. Dodaj radioGroup do DetailFilmFragment który pozwoli na wybranie jak bardzo ci się film podobał (bardzo/bardzo bardzo/ bardzo bardzo bardzo) (+ połączenie z bazą danych) //DetailFilmFragment && fragment detail film xml
 //v4. Dodaj czas trwania filmu do DetailFilmFragment //do 4 5 i 6 = fragment detail film <jako layout> oraz DetailFilmFragment
 //v5. Dodaj rok wydania filmu do DetailFilmFragment
 //v6. Dodaj fabułę filmu do DetailFilmFragment
 //v7. Dodaj typ produkcji do itemu w wyszukiwarce (serial, film, gra) // AdapterSearch, SearchFilmApi, item_movies_rv.xml
-//8. Dodaj switch do ActorFragment który pozwoli na sortowanie itemów w rv. (odznaczony- po ID, zaznaczony- po imieniu)
+//v8. Dodaj switch do ActorFragment który pozwoli na sortowanie itemów w rv. (odznaczony- po ID, zaznaczony- po imieniu) //fragment_database.xml && AdapterActors
 //9. Spraw by klawiarura znikała gdy "Szukaj" klikniemy poza polem wyszukiwania
 //
 //Dodaj splash screena

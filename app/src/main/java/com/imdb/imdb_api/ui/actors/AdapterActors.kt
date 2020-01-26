@@ -69,6 +69,15 @@ class AdapterActors(val context: Context, val actorList: MutableList<ActorsClass
 
     }
 
+    fun sortByName(t: Boolean){
+        if(t)
+        actorList.sortBy { it.actorName }
+        else
+            actorList.sortBy { it.actorID }
+
+        notifyDataSetChanged()
+    }
+
 
 
 }

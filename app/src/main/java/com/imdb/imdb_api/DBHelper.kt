@@ -18,7 +18,7 @@ class DBHelper(
 
     companion object{
         internal const val DATA_BASE_NAME = "DataBaseFilms.db"
-        internal const val DATA_BASE_VERSION = 13
+        internal const val DATA_BASE_VERSION = 14
         internal const val TABLE_FILMS = "films"
         internal const val TABLE_ACTORS = "actors"
         internal const val TABLE_DIRECTORS = "directors"
@@ -28,11 +28,12 @@ class DBHelper(
         internal const val COL_YEAR = "year"
         internal const val COL_POSTER = "poster"
         internal const val COL_IMDBID = "imdbID"
+        internal const val COL_LIKE = "howLike"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
         val create_films_table = (
-                "CREATE TABLE IF NOT EXISTS $TABLE_FILMS ($COL_ID INTEGER PRIMARY KEY, $COL_TITLE TEXT, $COL_YEAR TEXT, $COL_POSTER, $COL_IMDBID)"
+                "CREATE TABLE IF NOT EXISTS $TABLE_FILMS ($COL_ID INTEGER PRIMARY KEY, $COL_TITLE TEXT, $COL_YEAR TEXT, $COL_POSTER, $COL_IMDBID, $COL_LIKE)"
                 )
         val create_actors_table = (
                 "CREATE TABLE IF NOT EXISTS $TABLE_ACTORS ($COL_ID INTEGER PRIMARY KEY, $COL_NAME TEXT)"
@@ -62,6 +63,7 @@ class DBHelper(
         values.put(COL_YEAR, film.filmYear)
         values.put(COL_POSTER, film.filmPoster)
         values.put(COL_IMDBID, film.imdbID)
+        values.put(COL_LIKE, "0")
 
         val db = this.writableDatabase
         db.insert(TABLE_FILMS, null, values)
@@ -81,9 +83,10 @@ class DBHelper(
                     val year = cursor.getString(cursor.getColumnIndex(COL_YEAR))
                     val poster = cursor.getString(cursor.getColumnIndex(COL_POSTER))
                     val imdbID = cursor.getString(cursor.getColumnIndex(COL_IMDBID))
+                    val likeID = cursor.getString(cursor.getColumnIndex(COL_LIKE))
 
                     //FilmList.add(FilmsClass(title, year, poster, imdbID, id))
-                    FilmList.add(FilmsClass(title, year, poster, imdbID, id))
+                    FilmList.add(FilmsClass(title, year, poster, imdbID,likeID, id))
                 }while(cursor.moveToNext())
             }
             db.close()
@@ -184,6 +187,22 @@ class DBHelper(
         val cursor = db!!.rawQuery("SELECT * FROM $TABLE_DIRECTORS WHERE $COL_NAME= '$title'", null)
         Log.d("cycki" ,cursor.count.toString())
         i=cursor.count.toString().toInt()
+        db.close()
+        return i
+    }
+
+    fun editLikeFilm(i :Int, title: String, year: String){
+        val db= this.writableDatabase
+        db.execSQL("UPDATE " + TABLE_FILMS
+                    + " SET $COL_LIKE='" + i.toString() + "' WHERE $COL_TITLE='" + title + "' AND $COL_YEAR='" + year + "' ")
+    }
+
+    fun getFilmLikeId( title: String, year: String): String {
+        val i :String
+        val db = this.readableDatabase
+        val cursor = db!!.rawQuery("SELECT * FROM $TABLE_FILMS WHERE $COL_TITLE= '$title' and $COL_YEAR= '$year'", null)
+        cursor.moveToFirst()
+        i=cursor.getString(cursor.getColumnIndex(COL_LIKE))
         db.close()
         return i
     }
