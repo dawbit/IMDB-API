@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
 //    }
 //endregion
 
+    private var SPLASH_TIME_OUT=4000
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
